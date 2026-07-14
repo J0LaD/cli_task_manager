@@ -1,11 +1,26 @@
 use std::io;
 
+fn display_list_content(list: &Vec<String>)
+{
+    print!("{}", list.join(""));
+}
+
 fn add_to_list(list: &mut Vec<String>)
 {
-    let mut data: String = String::new();
-
-    io::stdin().read_line(&mut data).expect("func_error");
-    list.push(data);
+    loop {
+        let mut data: String = String::new();
+        match io::stdin().read_line(&mut data) {
+            Ok(_) => {
+                if data.trim() == "end" {
+                    break;
+                }
+                list.push(data);
+            }
+            Err(error) => {
+                eprintln!("func read_line fail! Exit: {}", error);
+            }
+        }
+    }
 }
 
 fn get_input()
@@ -17,12 +32,14 @@ fn get_input()
         io::stdin().read_line(&mut command).expect("func_error");
         if command.trim() == "Quit" {
             break;
-        }
-        if command.trim() == "add" {
+        } else if command.trim() == "add" {
             add_to_list(&mut list);
+        } else if command.trim() == "disp" {
+            display_list_content(&list);
+        } else {
+            println!("Key not known");
         }
     }
-    print!("{:?}", list);
 }
 
 fn main()
