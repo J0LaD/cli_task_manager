@@ -1,4 +1,5 @@
 use std::io;
+use std::env;
 
 fn display_list_content(list: &Vec<String>)
 {
@@ -98,7 +99,27 @@ fn get_input()
     }
 }
 
+
+fn print_usage()
+{
+    println!(
+        "        === User Manual ===
+        add  : Add one or more tasks. Type 'end' to return to the menu.
+        del  : Delete a task by its exact name. Type 'end' to return to the menu.
+        disp : Display all current tasks.
+        -h   : Display this help menu.
+        Quit : Exit the application.
+        ==================="
+    );
+}
+
 fn main()
 {
+    let usage_on = env::args().any(|arg| arg == "-h");
+
+    if usage_on == true {
+        print_usage();
+        return;
+    }
     get_input();
 }
