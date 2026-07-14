@@ -99,7 +99,6 @@ fn get_input()
     }
 }
 
-
 fn print_usage()
 {
     println!(
