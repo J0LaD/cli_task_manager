@@ -2,13 +2,17 @@ use std::io;
 
 fn get_input()
 {
-    let mut user_input = String::new();
-
+    let mut list: Vec<String> = Vec::new();
+    
     loop {
-        user_input.clear();
+        let mut user_input: String = String::new();
         io::stdin().read_line(&mut user_input).expect("func_error");
-        print!("{}", user_input);
+        if user_input.trim() == "Quit" {
+            break;
+        }
+        list.push(user_input);
     }
+    print!("{:?}", list);
 }
 
 fn main()
