@@ -1,13 +1,13 @@
-use std::{io, usize};
+use std::io;
 
 fn display_list_content(list: &Vec<String>)
 {
     if list.is_empty() == true {
-        println!("The list is currently empty.");
+        println!("The list is currently empty.\n");
     } else {
         println!("--- Task list ---");
         println!("{}", list.join("\n"));
-        println!("--- End of list ---");
+        println!("--- End of list ---\n");
     }
 }
 
@@ -19,13 +19,15 @@ fn add_to_list(list: &mut Vec<String>)
         match io::stdin().read_line(&mut data) {
             Ok(_) => {
                 let trimmed_data = data.trim();
+
                 if trimmed_data == "end" {
+                    println!("");
                     break;
                 }
                 list.push(trimmed_data.to_string());
             }
             Err(error) => {
-                eprintln!("func read_line fail! Exit: {}", error);
+                eprintln!("func read_line failed! Exit: {}", error);
             }
         }
     }
@@ -33,15 +35,16 @@ fn add_to_list(list: &mut Vec<String>)
 
 fn delete_from_list(list: &mut Vec<String>, task_to_delete: &str)
 {
-    let result: Option<usize> = list.iter().position(|task: &String| task == task_to_delete);
+    let mut iterator = list.iter();
+    let result = iterator.position(|task| task == task_to_delete);
 
     match result {
         Some(index) => {
-             println!("{} removed.", list[index]);
+             println!("{} removed.\n", list[index]);
             list.remove(index);
         }
         None => {
-            println!("This task doesn't exist!");
+            println!("This task doesn't exist!\n");
         }
     }
 }
@@ -49,7 +52,7 @@ fn delete_from_list(list: &mut Vec<String>, task_to_delete: &str)
 fn delete(list: &mut Vec<String>)
 {
     if list.is_empty() == true {
-        println!("No more things to delete!");
+        println!("Nothing to delete!\n");
         return;
     }
 
@@ -59,6 +62,7 @@ fn delete(list: &mut Vec<String>)
         match io::stdin().read_line(&mut task_to_delete) {
             Ok(_) => {
                 if task_to_delete.trim() == "end" {
+                    println!("");
                     break;
                 }
                 delete_from_list(list, &task_to_delete.trim());
@@ -84,7 +88,7 @@ fn get_input()
                 "add" => add_to_list(&mut list),
                 "disp" => display_list_content(&list),
                 "del" => delete(&mut list),
-                _ => println!("Key not known")
+                _ => println!("Key not known.\n")
                 }
             }
             Err(error) => {
